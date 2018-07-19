@@ -102,6 +102,16 @@ public class HttpProxyCacheServer {
     public String getProxyUrl(String url) {
         return getProxyUrl(url, true);
     }
+    
+    /*pasting code according to https://github.com/danikula/AndroidVideoCache/issues/188*/
+    public void shutdownClient(String url, CacheListener cacheListener) {
+       checkNotNull(cacheListener);
+       LOG.info("Shutting down client with url: " + url);
+       final HttpProxyCacheServerClients clients = clientsMap.get(url);
+       clients.unregisterCacheListener(cacheListener);        
+       clients.shutdown();
+   }
+/*end of pasting code*/
 
     /**
      * Returns url that wrap original url and should be used for client (MediaPlayer, ExoPlayer, etc).
